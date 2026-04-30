@@ -5,10 +5,12 @@ import "Database.js" as DB
 Page {
     property var stackView
     property string studentName
+    property string subject
     property int currentIndex: 0
     property int score: 0
 
-    property var questions: [
+    // Question sets
+    property var pythonQuestions: [
         { q: "Python function keyword?", o: ["func","def","define","fun"], a: "def" },
         { q: "Python file type?", o: ["Script","Module","App","Frame"], a: "Module" },
         { q: "Web language?", o: ["Python","C++","JS","Swift"], a: "JS" },
@@ -21,6 +23,29 @@ Page {
         { q: "Which keyword is used to define a class in Python?", o: ["class", "object", "define", "struct"], a: "class" }
 
     ]
+
+    property var cppQuestions: [
+        { q: "C++ single line comment?", o: ["#", "//", "/* */", "--"], a: "//" },
+        { q: "C++ input-output header?", o: ["stdio.h","iostream","conio.h","stdlib.h"], a: "iostream" }
+    ]
+
+    property var javaQuestions: [
+        { q: "Java class keyword?", o: ["class","define","struct","object"], a: "class" }
+    ]
+
+    // final questions
+    property var questions: []
+
+    // Load based on subject
+    Component.onCompleted: {
+        if (subject === "Python") {
+            questions = pythonQuestions
+        } else if (subject === "C++") {
+            questions = cppQuestions
+        } else {
+            questions = javaQuestions
+        }
+    }
 
     function next(ans) {
         if (ans === questions[currentIndex].a)

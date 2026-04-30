@@ -10,7 +10,10 @@ Page {
         spacing: 15
         width: parent.width * 0.85
 
-        Text { text: "Student Details"; font.pixelSize: 22 }
+        Text {
+            text: "Student Details"
+            font.pixelSize: 22
+        }
 
         TextField {
             id: nameField
@@ -20,7 +23,6 @@ Page {
         ComboBox {
             id: rollBox
             model: ["1","2","3","4","5"]
-            editable: false
         }
 
         ComboBox {
@@ -34,29 +36,27 @@ Page {
         }
 
         Button {
-           text: "Start Quiz"
+            text: "Start Quiz"
 
-              onClicked: {
-                  console.log("Path:", Qt.resolvedUrl("QuizPage.qml"))   
-                  console.log("Stack:", stackView)                       
-
+            onClicked: {
                 if (nameField.text === "") {
-                  console.log("Enter name first")
-              return
+                    console.log("Enter name first")
+                    return
+                }
+
+                DB.saveStudent({
+                    name: nameField.text,
+                    roll: rollBox.currentText,
+                    division: divisionBox.currentText,
+                    subject: subjectBox.currentText
+                })
+
+                stackView.push(Qt.resolvedUrl("QuizPage.qml"), {
+                    stackView: stackView,
+                    studentName: nameField.text,
+                    subject: subjectBox.currentText
+                })
             }
-
-           DB.saveStudent({
-             name: nameField.text,
-             roll: rollBox.currentText,
-             division: divisionBox.currentText,
-             subject: subjectBox.currentText
-            })
-
-          stackView.push(Qt.resolvedUrl("QuizPage.qml"), {
-            stackView: stackView,  
-            studentName: nameField.text
-            })
-         }
-      }
+        }
     }
 }

@@ -4,68 +4,39 @@ import "Database.js" as DB
 
 Page {
     property var stackView
+    property var results: []
 
-    ListModel {
-        id: resultModel
+    Component.onCompleted: {
+        results = DB.getAllResults()
     }
 
     Rectangle {
         anchors.fill: parent
-
-        //Gradient background
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#ff9966" }
-            GradientStop { position: 1.0; color: "#ff5e62" }
-        }
+        color: "#f46b45"
 
         Column {
             anchors.fill: parent
             anchors.margins: 15
-            spacing: 10
+            spacing: 15
 
-            // Back Button 
-            Button {
-                text: "Back to Home"
-                width: parent.width
-
-                background: Rectangle {
-                    radius: 10
-                    color: "#333"
-                }
-
-                contentItem: Text {
-                    text: parent.text
-                    color: "white"
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-
-                onClicked: {
-                    stackView.clear()
-                    stackView.push(Qt.resolvedUrl("StudentPage.qml"), {
-                        stackView: stackView
-                    })
-                }
-            }
-
+            // Title
             Text {
                 text: "Student Results"
-                font.pixelSize: 24
+                font.pixelSize: 26
                 font.bold: true
                 color: "white"
-                horizontalAlignment: Text.AlignHCenter
-                width: parent.width
             }
 
-            //List
+            // List
             ListView {
                 id: listView
                 width: parent.width
-                height: parent.height - 100
-                model: resultModel
+                height: parent.height - 260   // space for buttons
+                model: results
+                clip: true
 
                 delegate: Rectangle {
-                    width: parent.width
+                    width: listView.width
                     height: 80
                     radius: 12
                     color: "white"
@@ -74,50 +45,97 @@ Page {
                         anchors.centerIn: parent
                         spacing: 15
 
-                        Text { text: name; font.bold: true }
-                        Text { text: subject }
-                        Text { text: "Score: " + score }
+                        Text {
+                            text: modelData.name
+                            font.bold: true
+                            width: 120
+                        }
+
+                        Text {
+                            text: modelData.subject
+                            width: 80
+                        }
+
+                        Text {
+                            text: "Score: " + modelData.score
+                            width: 90
+                        }
 
                         Button {
                             text: "Delete"
-
                             background: Rectangle {
-                                radius: 8
                                 color: "#ff4d4d"
-                            }
-
-                            contentItem: Text {
-                                text: parent.text
-                                color: "white"
-                                horizontalAlignment: Text.AlignHCenter
-                                verticalAlignment: Text.AlignVCenter
+                                radius: 6
                             }
 
                             onClicked: {
-                                DB.deleteResult(id)
-
-                                // Refresh list
-                                resultModel.clear()
-                                var results = DB.getAllResults()
-
-                                for (var i = 0; i < results.length; i++) {
-                                    resultModel.append(results[i])
-                                }
+                                DB.deleteResult(modelData.id)
+                                results = DB.getAllResults()
                             }
                         }
                     }
                 }
             }
         }
-    }
 
-    // Load data
-    Component.onCompleted: {
-        resultModel.clear()
-        var results = DB.getAllResults()
+        // 📊 View Chart Button (above Go Home)
+        Button {
+            text: "View Chart"
+            width: parent.width * 0.9
+            height: 45
 
-        for (var i = 0; i < results.length; i++) {
-            resultModel.append(results[i])
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: goHomeButton.top
+            anchors.bottomMargin: 10
+
+            background: Rectangle {
+                color: "#333"
+                radius: 20
+            }
+
+            contentItem: Text {
+                text: "View Chart"
+                color: "white"
+                font.bold: true
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            onClicked: {
+                stackView.push(Qt.resolvedUrl("ChartPage.qml"), {
+                    stackView: stackView
+                })
+            }
+        }
+
+        // 🏠 Go Home Button (BOTTOM like Quiz Page)
+        Button {
+            id: goHomeButton
+
+            text: "Go Home"
+            width: parent.width * 0.9
+            height: 45
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+
+            background: Rectangle {
+                color: "#555"
+                radius: 20
+            }
+
+            contentItem: Text {
+                text: "Go Home"
+                color: "white"
+                font.bold: true
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            onClicked: {
+                stackView.pop(null)   //go to StudentPage
+            }
         }
     }
 }

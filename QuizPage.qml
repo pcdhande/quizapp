@@ -26,25 +26,39 @@ Page {
 
     property var cppQuestions: [
         { q: "C++ single line comment?", o: ["#", "//", "/* */", "--"], a: "//" },
-        { q: "C++ input-output header?", o: ["stdio.h","iostream","conio.h","stdlib.h"], a: "iostream" }
+        { q: "C++ header for input-output?", o: ["stdio.h","iostream","conio.h","stdlib.h"], a: "iostream" },
+        { q: "Which symbol is used to end a statement in C++?", o: [";", ":", ".", ","], a: ";" },
+        { q: "Which keyword is used to define a class in C++?", o: ["class", "struct", "object", "define"], a: "class" },
+        { q: "Which function is used to display output in C++?", o: ["printf()", "cout", "echo", "print()"], a: "cout" },
+        { q: "Which operator is used for input in C++?", o: [">>", "<<", "==", "="], a: ">>" },
+        { q: "Which data type is used for decimal numbers in C++?", o: ["int", "float", "char", "bool"], a: "float" },
+        { q: "Which loop is used when number of iterations is known?", o: ["for", "while", "do-while", "loop"], a: "for" },
+        { q: "Which keyword is used to return a value from a function?", o: ["return", "exit", "break", "yield"], a: "return" },
+        { q: "Which header file is required for using cout and cin?", o: ["iostream", "stdio.h", "math.h", "string.h"], a: "iostream" }
     ]
 
     property var javaQuestions: [
-        { q: "Java class keyword?", o: ["class","define","struct","object"], a: "class" }
+        { q: "Java class keyword?", o: ["class","define","struct","object"], a: "class" },
+        { q: "Which keyword is used to define a class in Java?", o: ["class", "struct", "define", "object"], a: "class" },
+        { q: "Which method is the entry point of a Java program?", o: ["start()", "main()", "run()", "init()"], a: "main()" },
+        { q: "Which keyword is used to inherit a class in Java?", o: ["extends", "implements", "inherits", "super"], a: "extends" },
+        { q: "Which package is imported by default in Java?", o: ["java.util", "java.lang", "java.io", "java.net"], a: "java.lang" },
+        { q: "Which data type is used to store whole numbers?", o: ["float", "double", "int", "char"], a: "int" },
+        { q: "Which symbol is used to end a statement in Java?", o: [";", ":", ".", ","], a: ";" },
+        { q: "Which keyword is used to create an object?", o: ["new", "create", "object", "make"], a: "new" },
+        { q: "Which loop is guaranteed to execute at least once?", o: ["for", "while", "do-while", "foreach"], a: "do-while" },
+        { q: "Which keyword is used to stop a loop?", o: ["stop", "exit", "break", "end"], a: "break" }
     ]
 
-    // final questions
     property var questions: []
 
-    // Load based on subject
     Component.onCompleted: {
-        if (subject === "Python") {
+        if (subject === "Python")
             questions = pythonQuestions
-        } else if (subject === "C++") {
+        else if (subject === "C++")
             questions = cppQuestions
-        } else {
+        else
             questions = javaQuestions
-        }
     }
 
     function next(ans) {
@@ -54,7 +68,7 @@ Page {
         currentIndex++
 
         if (currentIndex >= questions.length) {
-            DB.saveResult({ name: studentName, score: score })
+            DB.saveResult(studentName, subject, score)
 
             stackView.replace(Qt.resolvedUrl("ResultPage.qml"), {
                 stackView: stackView,
@@ -65,23 +79,70 @@ Page {
         }
     }
 
-    Column {
-        anchors.centerIn: parent
-        spacing: 20
-        width: parent.width * 0.9
+    Rectangle {
+        anchors.fill: parent
 
-        Text {
-            text: questions[currentIndex] ? questions[currentIndex].q : ""
-            wrapMode: Text.WordWrap
+        // Gradient background
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "#ff512f" }
+            GradientStop { position: 1.0; color: "#dd2476" }
         }
 
-        Repeater {
-            model: questions[currentIndex] ? questions[currentIndex].o : []
+        Column {
+            anchors.centerIn: parent
+            spacing: 20
+            width: parent.width * 0.9
 
-            Button {
-                text: modelData
+            // Question Card
+            Rectangle {
                 width: parent.width
-                onClicked: next(modelData)
+                radius: 15
+                color: "white"
+                height: 120
+
+                Text {
+                    anchors.centerIn: parent
+                    text: questions[currentIndex] ? questions[currentIndex].q : ""
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
+                    width: parent.width * 0.9
+                    font.pixelSize: 18
+                    color: "#333"
+                }
+            }
+
+            //  Options
+            Repeater {
+                model: questions[currentIndex] ? questions[currentIndex].o : []
+
+                Button {
+                    width: parent.width
+                    height: 45
+
+                    background: Rectangle {
+                        radius: 10
+                        color: "#ffffff"
+                        border.color: "#ccc"
+                    }
+
+                    contentItem: Text {
+                        text: modelData
+                        color: "#333"
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                    }
+
+                    onClicked: next(modelData)
+                }
+            }
+
+            // Progress Text
+            Text {
+                text: "Question " + (currentIndex + 1) + " / " + questions.length
+                color: "white"
+                font.pixelSize: 16
+                horizontalAlignment: Text.AlignHCenter
+                width: parent.width
             }
         }
     }

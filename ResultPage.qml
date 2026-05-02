@@ -19,9 +19,9 @@ Page {
         Column {
             anchors.centerIn: parent
             spacing: 20
-            width: parent.width * 0.85
+            width: parent.width * 0.9   // increased for better fit
 
-            // Title
+            // TITLE
             Text {
                 text: "Quiz Completed"
                 font.pixelSize: 28
@@ -29,55 +29,66 @@ Page {
                 color: "white"
                 horizontalAlignment: Text.AlignHCenter
                 width: parent.width
+                wrapMode: Text.WordWrap
+                elide: Text.ElideRight
             }
 
-            // Result Card
+            // RESULT CARD
             Rectangle {
                 width: parent.width
-                height: 180
+                height: 200
                 radius: 15
                 color: "white"
 
                 Column {
-                    anchors.centerIn: parent
+                    anchors.fill: parent
+                    anchors.margins: 15
                     spacing: 10
 
                     Text {
                         text: "Name: " + name
                         font.pixelSize: 18
                         color: "#333"
+                        width: parent.width
+                        elide: Text.ElideRight
                     }
 
                     Text {
                         text: "Score"
                         font.pixelSize: 16
                         color: "#777"
+                        width: parent.width
                     }
 
                     Text {
                         text: score + " / " + total
-                        font.pixelSize: 32
+                        font.pixelSize: 34
                         font.bold: true
                         color: "#11998e"
+                        width: parent.width
+                        horizontalAlignment: Text.AlignHCenter
                     }
                 }
             }
 
-            // Performance Message
+            // PERFORMANCE MESSAGE
             Text {
-                text: score === total ? "Excellent " :
-                      score > total/2 ? "Good Job " :
+                text: score === total ? "Excellent" :
+                      score > total/2 ? "Good Job" :
                       "Keep Practicing"
+
                 color: "white"
                 font.pixelSize: 18
                 horizontalAlignment: Text.AlignHCenter
                 width: parent.width
+                wrapMode: Text.WordWrap
             }
 
-            // View Results Button
+            // VIEW RESULTS BUTTON
             Button {
                 text: "View All Results"
                 width: parent.width
+                height: 45
 
                 background: Rectangle {
                     radius: 10
@@ -99,14 +110,15 @@ Page {
                 }
             }
 
-            // Go Home Button
+            // GO HOME BUTTON
             Button {
                 text: "Go Home"
                 width: parent.width
+                height: 45
 
                 background: Rectangle {
                     radius: 10
-                    color: "#555"
+                    color: "#444"
                 }
 
                 contentItem: Text {
@@ -117,7 +129,11 @@ Page {
                     verticalAlignment: Text.AlignVCenter
                 }
 
-                onClicked: stackView.pop()
+                onClicked: {
+                    if (stackView) {
+                        stackView.pop()
+                    }
+                }
             }
         }
     }

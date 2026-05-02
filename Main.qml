@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import "Database.js" as DB
 
 ApplicationWindow {
     visible: true
@@ -13,8 +14,11 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+        DB.initDB()
+
         stack.push(Qt.resolvedUrl("StudentPage.qml"), {
-            stackView: stack  
+            stackView: stack
         })
     }
+}
 }

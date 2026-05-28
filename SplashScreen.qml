@@ -17,23 +17,27 @@ Page {
             spacing: 20
 
             Text {
-                text: "📘"
-                font.pixelSize: 90
+                text: "Welcome to"
+                font.pixelSize: 32
+                 font.bold: true
                 horizontalAlignment: Text.AlignHCenter
                 width: parent.width
+                color: "Black"
             }
 
             Text {
                 text: "Quiz App"
                 font.pixelSize: 32
+                horizontalAlignment: Text.AlignHCenter
                 font.bold: true
-                color: "white"
+                color: "Black"
             }
 
             Text {
                 text: "Learn • Practice • Score"
-                font.pixelSize: 16
-                color: "white"
+                font.pixelSize: 18
+                horizontalAlignment: Text.AlignHCenter
+                color: "Black"
             }
         }
 

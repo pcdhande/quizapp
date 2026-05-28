@@ -16,7 +16,8 @@ ApplicationWindow {
     Component.onCompleted: {
         DB.initDB()
 
-        stack.push(Qt.resolvedUrl("StudentPage.qml"), {
+        //  Open Splash Screen first
+        stack.push(Qt.resolvedUrl("SplashScreen.qml"), {
             stackView: stack
         })
     }

@@ -17,6 +17,8 @@ CodeQuiz is a desktop-based quiz application developed using Qt/QML. The applica
 
 * Qt Framework
 * QML (Qt Quick)
+* Lomiri Components
+* QtQuick LocalStorage
 * JavaScript
 * C++
 
@@ -32,6 +34,3 @@ The project was developed to demonstrate the creation of a responsive quiz manag
 * Performance analytics and reports
 * Online multiplayer quizzes
 
-## Author
-
-Pratiksha

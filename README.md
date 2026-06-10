@@ -1,26 +1,33 @@
-# CodeQuiz
+# QuizApp
 
-CodeQuiz is a desktop-based quiz application developed using Qt/QML. The application provides an interactive and user-friendly environment for conducting multiple-choice quizzes. It features question navigation, score tracking, a timer system, and an intuitive dashboard to enhance the user experience.
+QuizApp is a Qt/QML-based quiz management application designed to conduct programming quizzes, track student performance, and manage results efficiently. The application includes chart-based analytics for visualizing quiz outcomes.
+
 
 ## Features
 
-* User-friendly dashboard interface
-* Multiple-choice question support
-* Next and Previous question navigation
-* Real-time quiz timer
+* Student registration form with:
+* Name input
+* Roll number selection
+* Division selection
+* Programming language selection
+* Interactive multiple-choice quiz interface
+* Question-by-question navigation
+* Real-time quiz progress tracking (e.g., Question 8/10)
+* Support for multiple programming language quizzes
 * Automatic score calculation
-* Display of student information during quizzes
-* Quiz completion summary and results
-* Modern UI built with Qt Quick (QML)
+* Student result management system
+* Results dashboard displaying:
+  * Student name
+  * Selected programming language
+  * Quiz score
+* Delete student records directly from the results page
+* Performance chart visualization for comparing student scores
+* Color-coded score indicators in the performance chart
+* Leaderboard-style ranking based on quiz performance
+* Persistent storage of quiz results using a local database
+* Modern and responsive user interface built with Qt Quick (QML)
+* Navigation between Home, Quiz, Results, and Performance Chart screens
 
-## Technologies Used
-
-* Qt Framework
-* QML (Qt Quick)
-* Lomiri Components
-* QtQuick LocalStorage
-* JavaScript
-* C++
 
 ## Purpose
 
@@ -28,7 +35,9 @@ The project was developed to demonstrate the creation of a responsive quiz manag
 
 ## Future Enhancements
 
-* User authentication
+* User and Admin authentication
+* User friendly dashboard
+* Leaderboard
 * Question categories and difficulty levels
 * Database integration
 * Performance analytics and reports
